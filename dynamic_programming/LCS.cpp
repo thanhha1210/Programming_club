@@ -43,6 +43,6 @@ void solve(string s, string t) {
 }
 int main() {
     string s, t;
-    cin >> s >> t;~
+    cin >> s >> t;
     solve(s, t);
 }

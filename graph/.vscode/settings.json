@@ -58,15 +58,6 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "iostream": "cpp",
-    "array": "cpp",
-    "any": "cpp",
-    "string_view": "cpp",
-    "ranges": "cpp",
-    "span": "cpp",
-    "regex": "cpp"
-  },
-  "cSpell.words": [
-    "manacher"
-  ],
-  "C_Cpp.errorSquiggles": "disabled"
+    "vector": "cpp"
+  }
 }

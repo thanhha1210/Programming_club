@@ -1,27 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define rep(i, j, n) for(int i = j; i < n; i++)
-typedef vector<int> vi;
-typedef vector<vector<int>> vvi;
-typedef vector<pair<int, int>> vpii;
+#define rep(i, j, k) for (int i = j; i < k; i++)
+typedef long long ll;
 
-const int MAXN = 1e5;
+typedef vector<long long> vll;
+typedef vector<vector<long long>> vvll;
+typedef vector<bool> vb;
+typedef vector<pair<long long, long long>> vpll;
 
-int bfs(int s, int t, const vvi& adj, const vvi& cap, vi& p) {
-    p = vi(n + 1, -1);
+const ll MAXN = 1e15 + 9;
+
+ll n, m, a, b, c, max_flow;
+vvll adj, cap;
+vb checkReach;
+vpll res;
+
+ll bfs(ll s, ll t, vll& p) {
+
+    checkReach.assign(n + 1, false);
+
+    p.assign(n + 1, -1);
     p[s] = -2;
-    queue<pair<int, int>> q;
+
+    queue<pair<ll, ll>> q;
     q.push({s, MAXN});
 
     while (!q.empty()) {
-        int v = q.front().first;
-        int flow = q.front().second;
+        ll v = q.front().first;
+        ll flow = q.front().second;
+
+        checkReach[v] = true;
+
         q.pop();
-        for (int to : adj[v]) {
+        for (ll to : adj[v]) {
             if (p[to] == -1 && cap[v][to] > 0) {
                 p[to] = v;
-                int new_flow = min(flow, cap[v][to]);
+                ll new_flow = min(flow, cap[v][to]);
                 if (to == t) {
                     return new_flow;
                 }
@@ -32,47 +47,60 @@ int bfs(int s, int t, const vvi& adj, const vvi& cap, vi& p) {
     return 0;
 }
 
-void solve(const vvi& adj, vvi& cap) {
-    int max_flow = 0;
-    vi p;
+void find_max_flow() {
+    max_flow = 0;
     int flow;
-    while ((flow = bfs(1, n, adj, cap, p))) {
-        int cur = n;
+    vll p;
+    while ((flow = bfs(1, n, p))) {
+        ll cur = n;
         while (cur != 1) {
-            int prev = p[cur];
+            ll prev = p[cur];
             cap[prev][cur] -= flow;
             cap[cur][prev] += flow;
             cur = prev;
         }
         max_flow += flow;
     }
-    cout << max_flow << '\n';
+}
+
+void print_output() {
+    rep(i, 1, n + 1) {
+        if (checkReach[i]) {
+            for (auto x : adj[i]) {
+                if (!checkReach[x]) {
+                    res.push_back({i, x});
+                }
+            }
+        }
+    }
+
+    cout << res.size() << '\n';
+
+    rep(i, 0, res.size()) {
+        cout << res[i].first << ' ' << res[i].second << '\n';
+    }
+
 }
 
 int main() {
-    int n, m, a, b, res = 0;
-
     cin >> n >> m;
-
-    vvi adj(n + 1);  // take adjacent vertex
-    vvi cap(n + 1, vi(n + 1, 0));
-    vpii stroke(m);
+    adj.assign(n + 1, vll());
+    cap.assign(n + 1, vll(n + 1, 0));
 
     rep(i, 0, m) {
         cin >> a >> b;
-        adj[a][b] = 1;
-        adj[b][a] = 1;
-        stroke[i] = make_pair(a, b);
-    }
-    check(1, b, adj, cap);
-
-    rep(i, 0, m) {
-        int a = stroke[i].first;
-        int b = stroke[i].second;
-        if (cap[a][b] == 0 || cap[b][a] == 0) {
-            res++;
+        if (cap[a][b] == 0) {
+            adj[a].push_back(b);
+            adj[b].push_back(a);
+            cap[a][b] = 1;
+            cap[b][a] = 1;
         }
     }
-    cout << res;
 
+    find_max_flow();
+
+    print_output();
+
+
+    return 0;
 }

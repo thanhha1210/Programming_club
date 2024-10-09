@@ -55,7 +55,6 @@ int main() {
     rep(i, 0, m) {
         cin >> a >> b;
         adj[a].push_back(b);
-        adj[b].push_back(a);
     }
  
     rep(i, 1, n + 1) {

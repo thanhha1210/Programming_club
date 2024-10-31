@@ -6,29 +6,60 @@ typedef vector<bool> vb;
 typedef vector<vector<char>> vvc;
 typedef vector<vector<bool>> vvb;
 int n, m, cnt = 0, l, r, u, d;
+int dx[] = {-1, 1, 0, 0};
+int dy[] = {0, 0, -1, 1};
 vvc grid;
 vvb check;
 
+bool checkValid(int x, int y) {
+    return (x >= 0 && x < n && y >= 0 && y < m); 
+}
+
+
 void dfs(int i, int j) {
     check[i][j] = true;
-    l = j - 1, r = j + 1, u = i - 1, d = i + 1;
-    if (l >= 0 && !check[i][l] && (grid[i][l] == 'L' || grid[i][l] == 'C')) {
-        grid[i][l] = 'L';
-        dfs(i, l);
+    
+    
+    for (int dir = 0; dir < 4; dir++) {
+        int ni = i + dx[dir], nj = j + dy[dir]; 
+       
+        if (checkValid(ni, nj) && !check[ni][nj] && (grid[ni][nj] == 'L' || grid[ni][nj] == 'C')) {
+            dfs(ni, nj); 
+        }
     }
-    if (r < m && !check[i][r] && (grid[i][r] == 'L' || grid[i][r] == 'C')) {
-        grid[i][r] = 'L';
-        dfs(i, r);
-    }
-    if (u >= 0 && !check[u][j] && (grid[u][j] == 'L' || grid[u][j] == 'C')) {
-        grid[u][j] = 'L';
-        dfs(u, j);
-    }
-    if (d < n && !check[d][j] && (grid[d][j] == 'L' || grid[d][j] == 'C')) {
-        grid[d][j] = 'L';
-        dfs(d, j);
-    }  
 }
+
+
+void dfs(ll x, ll y) {
+	if (grid[x][y]=='W') return;
+	if (check[x][y]) return;
+	check[x][y]=true;
+	dfs(x+1,y);
+	dfs(x-1,y);
+	dfs(x,y+1);
+	dfs(x,y-1);
+}
+
+int main() {
+	
+	ll n,m;
+    cin>>n>>m;
+
+	for (ll x=0;x<=n+1;x++) 
+        for (ll y=0;y<=m+1;y++) 
+            a[x][y]='W';
+	for (ll x=0;x<n;x++) 
+        for (ll y=0;y<m;y++) 
+		cin>>a[x+1][y+1];
+	
+	ll ans=0;
+	for (ll x=1;x<=n;x++) 
+        for (ll y=1;y<=m;y++) 
+		if (a[x][y]=='L'&&!seen[x][y]) {dfs(x,y);ans++;}
+	
+	cout<<ans<<endl;
+}
+
 
 int main() {
     cin >> n >> m;

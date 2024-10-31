@@ -3,28 +3,23 @@ using namespace std;
 #define rep(i, j, n) for (int i = j; i < n; i++)
 
 typedef long long ll;
-ll n, k, cnt = 0, k1, k2;
-priority_queue<ll,vector<ll>> socks; 
+ll n, k, sum = 0, maxSock = 0;
+
+/*
+    Objective: 
+        if even number of socks & no dominant sock -> can always match all
+        if even & has dominant sock -> maxPair = remain 
+*/
 
 int main() {
     cin >> n;
     rep(i, 0, n) {
         cin >> k;
-        socks.push(k);
+        sum += k;
+        maxSock = max(k, maxSock);
     }
-    while (socks.size() > 2) {
-        k1 = socks.top();
-        socks.pop();
-        k2 = socks.top();
-        socks.pop();
-        k3 = socks.top();
-        socks.pop();
-
-        ll d = min(k1 - k2, k3);
-        cnt += d;
-        if (k1 > 0) 
-            socks.push(k1); 
-    }
-    
-    cout << cnt;
+    if (sum >= 2 * maxSock) 
+        cout << sum / 2;
+    else 
+        cout << sum - maxSock;
 }

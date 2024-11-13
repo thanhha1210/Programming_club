@@ -44,7 +44,6 @@ void dijkstra(ll s, ll e) {
             }
         }
     }
-
     if (d[e] == INF) {
         cout << "NO\n";
     }

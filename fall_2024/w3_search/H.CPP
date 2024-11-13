@@ -49,4 +49,17 @@ int main() {
 }
 
 
-        
+
+
+   while (r - l > 6) {
+        ll m1 = (2 * l + r) / 3, m2 = (l + 2 * r) / 3;
+        if (f(m1) == f(m2)) {
+            l = m1, r = m2;
+        }
+        else if (f(m1) < f(m2)) r = m2;
+        else l = m1;
+    }
+    rep(j, l, r + 1) {
+        // find 
+    }
+  

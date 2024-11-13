@@ -35,7 +35,7 @@ void solve(const vll& a, const int& n) {
             if (lis[k] == a[i])
                 continue;
             else if (lis[k] < a[i] && lis[k + 1] > a[i])
-                lis[k + 1] = a[i];~
+                lis[k + 1] = a[i];
             else if (lis[k] > a[i] && lis[k - 1] < a[i])
                 lis[k] = a[i];
         }
